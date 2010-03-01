@@ -32,34 +32,53 @@
 .code16
 .globl board_init16
 board_init16:
-	/* Alias MMCR to 0xdf000 */
-	movw	$0xfffc, %dx
-	movl	$0x800df0cb, %eax
-	outl	%eax, %dx
 
-	/* Set ds to point to MMCR alias */
-	movw	$0xdf00, %ax
-	movw	%ax, %ds
 
-	/* Map PAR for Boot Flash (BOOTCS, 512kB @ 0x380000000) */
-	movl    $0x00c0, %edi		/* SC520_PAR14 */
-	movl	$0x8bfff800, %eax	/* TODO: Check this */
-	movl	%eax, (%di)
+	/* turn on the RED led to let the world know, were alive */
+	movw	$0xcf8, %dx
+	movl	$0x80003848, %eax
+	outl	%eax,%dx
 
-	/* Map PAR for LED, Hex Switches (GPCS6, 20 Bytes @ 0x1000) */
-	movl    $0x00c4, %edi		/* SC520_PAR15 */
-	movl	$0x38201000, %eax
-	movl	%eax, (%di)
+	movw	$0xcfc, %dx
+	movl	$0x00010000, %eax
+	outl	%eax,%dx
 
-	/* Disable SDRAM write buffer */
-	movw    $0x0040, %di		/* SC520_DBCTL */
-	xorw    %ax, %ax
-	movb    %al, (%di)
+	movw	$0xcf8, %dx
+	movl	$0x8000384c, %eax
+	outl	%eax,%dx
 
-	/* Disabe MMCR alias */
-	movw	$0xfffc, %dx
-	movl	$0x000000cb, %eax
-	outl	%eax, %dx
+	movw	$0xcfc, %dx
+	movl	$0x00000000, %eax
+	outl	%eax,%dx
+
+
+	/*
+	 * Internal UART Control Register: Register Offset: 53h
+	 *
+	 * 7 UIADE R/W Enable/Disable Internal UART IO Address Decode : 1
+	 * 6-4 Rsvd RO Reserved
+	 * Bit 3 Bit 2 Bit 1 Bit 0 Routing Table : 0 1 0 0 IRQ[4]
+	 *
+	 * setting: 10000100 : 0x84
+	 *
+	 * */
+
+	/* configure and turn on address translation of the serial port */
+	movw	$0xcf8, %dx
+	movl	$0x80003854, %eax
+	outl	%eax,%dx
+
+	movw	$0xcfc, %dx
+	movl	$0x000003f8, %eax
+	outl	%eax,%dx
+
+	movw	$0xcf8, %dx
+	movl	$0x80003850, %eax
+	outl	%eax,%dx
+
+	movw	$0xcfc, %dx
+	movl	$0x84801012, %eax
+	outl	%eax,%dx
 
 	/* the return address is stored in bp */
 	jmp	*%bp
@@ -84,5 +103,7 @@ realmode_reset:
 	movb	$0x01, %al
 	movb	%al, (%di)
 
-1:	hlt
-	jmp	1
+	jmp *TEXT_BASE
+
+/*1:	hlt
+	jmp	1*/

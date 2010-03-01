@@ -35,7 +35,7 @@
  */
 #define CONFIG_SYS_MALLOC_LEN	(CONFIG_ENV_SIZE + 128*1024)
 
-#define CONFIG_BAUDRATE		38400
+#define CONFIG_BAUDRATE		115200
 
 /*-----------------------------------------------------------------------
  * Command line configuration.
@@ -127,11 +127,11 @@
  * Memory organization
  */
 #define CONFIG_SYS_STACK_SIZE		0x8000  	/* Size of bootloader stack */
-#define CONFIG_SYS_BL_START_FLASH	0x38040000	/* Address of relocated code */
-#define CONFIG_SYS_BL_START_RAM		0x03fd0000	/* Address of relocated code */
+#define CONFIG_SYS_BL_START_FLASH	0xFFF80000	/* Address of relocated code */
+#define CONFIG_SYS_BL_START_RAM		0x00400000	/* Address of relocated code */
 #define CONFIG_SYS_MONITOR_BASE		TEXT_BASE
 #define CONFIG_SYS_MONITOR_LEN		(256 * 1024)    /* Reserve 256 kB for Mon	*/
-#define CONFIG_SYS_FLASH_BASE		0x38000000	/* Boot Flash */
+#define CONFIG_SYS_FLASH_BASE		0xFFF80000	/* Boot Flash */
 #define CONFIG_SYS_FLASH_BASE_1		0x10000000	/* StrataFlash 1 */
 #define CONFIG_SYS_FLASH_BASE_2		0x11000000	/* StrataFlash 2 */
 

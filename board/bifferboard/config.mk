@@ -1,6 +1,6 @@
 #
 # (C) Copyright 2002
-# Daniel Engström, Omicron Ceti AB, daniel@omicron.se.
+# Daniel Engstrï¿½m, Omicron Ceti AB, daniel@omicron.se.
 #
 # See file CREDITS for list of people who contributed to this
 # project.
@@ -21,7 +21,7 @@
 # MA 02111-1307 USA
 #
 
-TEXT_BASE = 0x38040000
+TEXT_BASE = 0xFFF80000
 CFLAGS_dlmalloc.o += -Wa,--no-warn -fno-strict-aliasing
 PLATFORM_RELFLAGS += -fvisibility=hidden
 PLATFORM_CPPFLAGS += -fno-dwarf2-cfi-asm

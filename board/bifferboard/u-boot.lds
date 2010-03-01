@@ -1,6 +1,6 @@
 /*
  * (C) Copyright 2002
- * Daniel Engström, Omicron Ceti AB, daniel@omicron.se.
+ * Daniel Engstrï¿½m, Omicron Ceti AB, daniel@omicron.se.
  *
  * See file CREDITS for list of people who contributed to this
  * project.
@@ -27,7 +27,7 @@ ENTRY(_start)
 
 SECTIONS
 {
-	. = 0x38040000;		/* Location of bootcode in flash */
+	. = 0xFFF80000;		/* Location of bootcode in flash */
 	_i386boot_text_start = .;
 	.text  : { *(.text); }
 
@@ -99,12 +99,15 @@ SECTIONS
 	 */
 
 	. = 0xfffffe00;
-	.start32 : AT (0x3807fe00) { *(.start32); }
+	/*.start32 : AT (0x3807fe00) { *(.start32); }*/
+	.start32 : AT (0xFFFFfe00) { *(.start32); }
 
 	. = 0xf800;
-	.start16 : AT (0x3807f800) { *(.start16); }
+	/*.start16 : AT (0x3807f800) { *(.start16); }*/
+	.start16 : AT (0xFFFFf800) { *(.start16); }
 
 	. = 0xfff0;
-	.resetvec : AT (0x3807fff0) { *(.resetvec); }
+	/*.resetvec : AT (0x3807fff0) { *(.resetvec); }*/
+	.resetvec : AT (0xFFFFfff0) { *(.resetvec); }
 	_i386boot_end = (LOADADDR(.resetvec) + SIZEOF(.resetvec) );
 }
